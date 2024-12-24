@@ -16,7 +16,7 @@ EMBEDDING_TOKEN_LENGTH = 512
 MODEL_DEVICE = "cpu" # "cuda" if torch.cuda.is_available() else "cpu"                                    
 
 # API Key
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = ""
 
 SYS_PROMPT = f'''You are a document metadata extraction assistant. 
 Based on the provided academic paper, extract its title, author names, and abstract. 
