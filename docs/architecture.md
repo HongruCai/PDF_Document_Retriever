@@ -1,7 +1,7 @@
 # System Architecture
 
 ## **Overview**
-The PDF Document Semantic Retriever system is designed to extract metadata from PDF documents, generate embeddings, and retrieve semantically similar documents efficiently. The architecture is modular, scalable, and extendable, ensuring adaptability for different use cases such as academic research, document organization, and recommendation systems.
+The PDF Document Retriever system is designed to extract metadata from PDF documents, generate embeddings, and retrieve semantically similar documents efficiently. The architecture is modular, scalable, and extendable, ensuring adaptability for different use cases such as academic research, document organization, and recommendation systems.
 
 
 ## **High-Level Components**

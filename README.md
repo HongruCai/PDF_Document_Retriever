@@ -1,8 +1,8 @@
-# PDF Document Semantic Retriever
+# PDF Document Retriever
 
 ## **Overview**
 
-The PDF Semantic Retriever is a system designed to extract metadata from PDF files (title, authors, and abstract), generate embeddings for these metadata fields, and efficiently retrieve semantically similar documents from a database. It is ideal for applications such as research collaboration, document organization, and expert recommendation.
+The PDF Document Retriever is a system designed to extract metadata from PDF files (title, authors, and abstract), generate embeddings for these metadata fields, and efficiently retrieve semantically similar documents from a database. It is ideal for applications such as research collaboration, document organization, and expert recommendation.
 
 
 ## **Key Features**
