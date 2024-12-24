@@ -25,11 +25,18 @@ The PDF Semantic Retriever is a system designed to extract metadata from PDF fil
    - Supports additional metadata extraction methods and customized retrieval algorithms.
 
 
-
 ## **Directory Structure**
 
 ```
 PDR/
+├── data/
+│   ├── metadata/                      # Metadata files for documents
+│   ├── query/                         # Sample query PDFs
+|   ├── index/                         # Index files
+|   ├── logs/                          # Log files
+├── docs/                              
+|   |── architecture.md                # System architecture
+|   |── design_decisions.md            # Design decisions
 ├── src/
 │   ├── processing/
 │   │   ├── pdf_reader.py              # Extract metadata from PDFs
@@ -41,14 +48,7 @@ PDR/
 │   ├── config.py                      # Configuration settings
 │   ├── retrieval.py                   # Core retrieval logic (PDFRetriever class)
 ├── run.py                             # Entry point to demonstrate system functionality
-├── data/
-│   ├── metadata/                      # Metadata files for documents
-│   ├── query/                         # Sample query PDFs
-|   ├── index/                         # Index files
-|   ├── logs/                          # Log files
-├── docs/                              # Documentation
-|   |── architecture.md                # System architecture
-|   |── design_decisions.md            # Design decisions
+├── requirements.txt                   # Required dependencies
 ```
 
 
@@ -62,9 +62,10 @@ PDR/
    cd /PDF_Document_Retriever
    ```
 
-2. Create a virtual environment and activate it:
+2. Create a conda environment and activate it:
    ```bash
    conda create -n pdr python=3.11
+   conda activate pdr
    ```
 
 3. Install required dependencies:
@@ -113,8 +114,6 @@ Run the test suite to verify functionality:
 pytest src/utils/test_functions.py -v
 ```
 
-
----
 
 ## **License**
 This project is licensed under the MIT License. See `LICENSE` for details.
