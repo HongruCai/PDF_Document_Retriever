@@ -4,7 +4,7 @@ from transformers import AutoTokenizer, AutoModel
 import torch
 import torch.nn.functional as F
 
-from src.config import EMBEDDING_MODEL, EMBEDDING_TOKEN_LENGTH
+from src.config import EMBEDDING_MODEL, EMBEDDING_TOKEN_LENGTH, MODEL_DEVICE
 
 def mean_pooling(model_output, attention_mask):
     """
@@ -35,7 +35,7 @@ class EmbeddingGenerator:
             model_name (str): The name of the model from Hugging Face Transformers.
         """
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.model = AutoModel.from_pretrained(model_name)
+        self.model = AutoModel.from_pretrained(model_name).to(MODEL_DEVICE)
 
     def generate_embedding(self, text: str) -> List[float]:
         """
@@ -64,7 +64,7 @@ class EmbeddingGenerator:
         Generate embeddings for the title, author, and abstract of a document's metadata.
 
         Args:
-            metadata (Dict[str, str]): A dictionary containing 'title', 'author', and 'abstract'.
+            metadata (Dict[str, str]): A dictionary containing 'title', 'authors', and 'abstract'.
 
         Returns:
             Dict[str, List[float]]: A dictionary containing embeddings for each metadata field.

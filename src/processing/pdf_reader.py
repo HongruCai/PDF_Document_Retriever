@@ -61,7 +61,7 @@ class PDFReader:
             pdf_image (Image): The first page of the PDF as a PIL Image object.
 
         Returns:
-            Dict[str, str]: A dictionary containing the title, author, and abstract.
+            Dict[str, str]: A dictionary containing the title, authors, and abstract.
         """
         buffered = BytesIO()
         pdf_image.save(buffered, format="JPEG")
@@ -81,7 +81,7 @@ class PDFReader:
 
         metadata = {
             "title": "",
-            "author": "",
+            "authors": "",
             "abstract": ""
         }
         try:
@@ -93,13 +93,13 @@ class PDFReader:
 
     def read_pdf(self, file_path: str) -> Dict[str, str]:
         """
-        Reads a PDF file and extracts title, author, and abstract using OpenAI's GPT-4 API.
+        Reads a PDF file and extracts title, authors, and abstract using OpenAI's GPT-4 API.
 
         Args:
             file_path (str): The path to the PDF file.
 
         Returns:
-            Dict[str, str]: A dictionary containing the title, author, and abstract.
+            Dict[str, str]: A dictionary containing the title, authors, and abstract.
         """
         if not os.path.isfile(file_path):
             raise FileNotFoundError(f"File not found: {file_path}")

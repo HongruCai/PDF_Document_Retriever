@@ -19,7 +19,7 @@ class PDFRetriever:
     def __init__(self):
         self.pdf_reader = PDFReader(api_key=OPENAI_API_KEY)
         self.embedding_generator = EmbeddingGenerator(model_name=EMBEDDING_MODEL)
-        self.indexing = Indexing(embedding_dim=EMBEDDING_DIM, metadata_file=METADATA_FILE)
+        self.indexing = Indexing(embedding_dim=EMBEDDING_DIM, metadata_file=None)
         logger.info("PDFRetriever initialized.")
 
     def initialize_index(self, metadata_file: str):
@@ -38,15 +38,16 @@ class PDFRetriever:
             for article in tqdm(articles, desc="Initializing Index"):
                 metadata = {
                     "title": article["title"],
-                    "author": article["authors"],
+                    "authors": article["authors"],
                     "abstract": article["abstract"]
                 }
                 embeddings = self.embedding_generator.generate_metadata_embedding(metadata)
                 self.indexing.add_entry(embeddings, metadata)
 
-            self.indexing.save_indexes(INDEX_TITLE_FILE, INDEX_AUTHOR_FILE, INDEX_ABSTRACT_FILE)
-            self.indexing.save_metadata(METADATA_FILE)
-            logger.info("Index initialized and saved successfully.")
+            # self.indexing.save_indexes(INDEX_TITLE_FILE, INDEX_AUTHOR_FILE, INDEX_ABSTRACT_FILE)
+            # self.indexing.save_metadata(METADATA_FILE)
+            logger.info("Index initialized successfully.")
+            logger.info(f"Total documents in the index: {len(articles)}")
         except Exception as e:
             logger.error(f"Failed to initialize index: {e}")
             raise
@@ -60,29 +61,42 @@ class PDFRetriever:
             self.indexing.load_indexes(INDEX_TITLE_FILE, INDEX_AUTHOR_FILE, INDEX_ABSTRACT_FILE)
             self.indexing.load_metadata(METADATA_FILE)
             logger.info("Indexes and metadata loaded successfully.")
+            logger.info(f"Total documents in the index: {len(self.indexing.metadata)}")
         except Exception as e:
             logger.error(f"Failed to load indexes or metadata: {e}")
             raise
 
-    def add_to_index(self, title: str, author: str, abstract: str):
+    def add_to_index(self, title: str, authors: str, abstract: str):
         """
         Add a single document's metadata to the index.
 
         Args:
             title (str): The title of the document.
-            author (str): The author(s) of the document.
+            authors (str): The author(s) of the document.
             abstract (str): The abstract of the document.
         """
-        logger.info(f"Adding document to index: title='{title}', author='{author}'")
+        logger.info(f"Adding document to index: title='{title}'")
         try:
-            metadata = {"title": title, "author": author, "abstract": abstract}
+            metadata = {"title": title, "authors": authors, "abstract": abstract}
             embeddings = self.embedding_generator.generate_metadata_embedding(metadata)
             self.indexing.add_entry(embeddings, metadata)
-            self.indexing.save_indexes(INDEX_TITLE_FILE, INDEX_AUTHOR_FILE, INDEX_ABSTRACT_FILE)
-            self.indexing.save_metadata(METADATA_FILE)
             logger.info("Document added to index successfully.")
+            logger.info(f"Total documents in the index: {len(self.indexing.metadata)}")
         except Exception as e:
             logger.error(f"Failed to add document to index: {e}")
+            raise
+
+    def save_index(self):
+        """
+        Save the current state of indexes and metadata to disk.
+        """
+        logger.info("Saving indexes and metadata to disk.")
+        try:
+            self.indexing.save_indexes(INDEX_TITLE_FILE, INDEX_AUTHOR_FILE, INDEX_ABSTRACT_FILE)
+            self.indexing.save_metadata(METADATA_FILE)
+            logger.info("Indexes and metadata saved successfully.")
+        except Exception as e:
+            logger.error(f"Failed to save indexes or metadata: {e}")
             raise
 
     def search_by_pdf(self, pdf_path: str, top_k: int = TOP_K_RESULTS):
@@ -107,6 +121,14 @@ class PDFRetriever:
             logger.error(f"Failed to search using PDF: {e}")
             raise
 
+    def get_total_documents(self) -> int:
+        """
+        Get the total number of documents currently encoded in the index.
+
+        Returns:
+            int: The total number of documents.
+        """
+        return len(self.indexing.metadata)
 
 
 
